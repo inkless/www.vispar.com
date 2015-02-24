@@ -19,8 +19,8 @@ module.exports = function login(inputs) {
   User.attemptLogin({
     email: inputs.email,
     password: inputs.password
-  }, function (err, user) {
-    if (err) return res.negotiate(err);
+  })
+  .then(function(user) {
     if (!user) {
 
       // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
@@ -41,14 +41,14 @@ module.exports = function login(inputs) {
     // send a 200 response letting the user agent know the login was successful.
     // (also do this if no `successRedirect` was provided)
     if (req.wantsJSON || !inputs.successRedirect) {
-      return res.ok({
-        id: user.id,
-        name: user.name
-      });
+      return res.ok(User.retrieveInfo(user));
     }
 
     // Otherwise if this is an HTML-wanting browser, redirect to /.
     return res.redirect(inputs.successRedirect);
+  })
+  .catch(function(err) {
+    if (err) return res.negotiate(err);
   });
 
 };
