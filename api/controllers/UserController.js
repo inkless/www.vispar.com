@@ -28,8 +28,8 @@ module.exports = {
   logout: function (req, res) {
 
     // "Forget" the user from the session.
-    // Subsequent requests from this user agent will NOT have `req.session.me`.
-    req.session.me = null;
+    // Subsequent requests from this user agent will NOT have `req.session.user`.
+    req.session.user = null;
     // console.log('logout');
 
     // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
@@ -62,8 +62,8 @@ module.exports = {
 
       // Go ahead and log this user in as well.
       // We do this by "remembering" the user in the session.
-      // Subsequent requests from this user agent will have `req.session.me` set.
-      req.session.me = user.id;
+      // Subsequent requests from this user agent will have `req.session.user` set.
+      req.session.user = user;
 
       // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
       // send a 200 response letting the user agent know the signup was successful.
@@ -73,6 +73,74 @@ module.exports = {
 
       // Otherwise if this is an HTML-wanting browser, redirect to /welcome.
       return res.redirect('/welcome');
+    });
+  },
+
+  forgetPassword: function(req, res) {
+    var toEmail = req.param('email');
+
+    User.sendResetEmail({
+      email: toEmail
+    }).then(function(user) {
+      if (!user) {
+        if (req.wantsJSON) {
+          return res.badRequest('reset token failed');
+        }
+        return res.redirect('/');
+      }
+
+      if (req.wantsJSON) {
+        return res.ok(User.retrieveInfo(user));
+      }
+
+      return res.redirect('/');
+    })
+    .catch(function(err) {
+      if (err) return res.negotiate(err);
+    });
+  },
+
+  // get view
+  showResetPassword: function(req, res) {
+    var resetToken = req.param('v');
+    User.checkReset(resetToken)
+    .then(function(user) {
+      if (!user) {
+        return res.redirect('/');
+      }
+
+      req.session.email = user.email;
+      req.session.resetToken = resetToken;
+      res.view('user/resetpassword');
+    })
+    .catch(function(err) {
+      if (err) return res.negotiate(err);
+    });
+  },
+
+  resetPassword: function(req, res) {
+    var resetToken = req.param('resetToken');
+    var password = req.param('password');
+    User.resetPassword({
+      resetToken: resetToken,
+      password: password
+    })
+    .then(function(user) {
+      if (!user) {
+        if (req.wantsJSON) {
+          return res.badRequest('reset password failed');
+        }
+        return res.redirect('/');
+      }
+
+      if (req.wantsJSON) {
+        return res.ok(User.retrieveInfo(user));
+      }
+
+      return res.redirect('/');
+    })
+    .catch(function(err) {
+      if (err) return res.negotiate(err);
     });
   }
 };

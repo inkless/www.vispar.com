@@ -40,10 +40,14 @@ module.exports.routes = {
   'get /login': { view: 'user/login' },
   'get /signup': { view: 'user/signup' },
   '/welcome': { view: 'user/welcome' },
+  'get /forgetpassword': { view: 'user/forgetpassword' },
+  'get /resetpassword': 'UserController.showResetPassword',
 
   // Endpoints
   'post /login': 'UserController.login',
   'post /signup': 'UserController.signup',
+  'post /forgetpassword': 'UserController.forgetPassword',
+  'post /resetpassword': 'UserController.resetPassword',
   '/logout': 'UserController.logout'
 
   /***************************************************************************

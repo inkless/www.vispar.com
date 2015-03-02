@@ -1,7 +1,7 @@
 <h1>Welcome to <a href="https://visparcorp.wordpress.com/">Vispar.com</a>!</h1>
 
-<% if (req.session.me) { %>
+<% if (req.session.user) { %>
 <a href="/logout">Logout</a>
 <% } else { %>
-<a href="/login">Login</a> | <a href="/signup">Signup</a>
+<a href="/login">Login</a> | <a href="/signup">Signup</a> | <a href="/forgetpassword">Forget password?</a>
 <% } %>
