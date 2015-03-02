@@ -97,13 +97,11 @@ module.exports = {
       auth: sails.config.gmail
     });
 
-    var appUrl = sails.getBaseurl();
-
     transporter.sendMail({
       from: 'vispar.corp@gmail.com',
       to: inputs.email,
       subject: 'Reset Password',
-      text: appUrl + '/resetpassword?v=' + resetToken
+      text: inputs.baseUrl + '/resetpassword?v=' + resetToken
     }, function(err, data) {
       console.log(err || data);
     });

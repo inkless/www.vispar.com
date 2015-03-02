@@ -78,9 +78,12 @@ module.exports = {
 
   forgetPassword: function(req, res) {
     var toEmail = req.param('email');
+    var protocol = req.connection.encrypted? 'https' : 'http';
+    var baseUrl = protocol + '://' + req.headers.host;
 
     User.sendResetEmail({
-      email: toEmail
+      email: toEmail,
+      baseUrl: baseUrl
     }).then(function(user) {
       if (!user) {
         if (req.wantsJSON) {
