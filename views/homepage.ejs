@@ -1,3 +1,5 @@
+<% block('localScripts', '<script type="text/javascript" src="js/homepage.js"></script>') %>
+
 <h1>Welcome to <a href="https://visparcorp.wordpress.com/">Vispar.com</a>!</h1>
 
 <% if (req.session.user) { %>
@@ -5,3 +7,12 @@
 <% } else { %>
 <a href="/login">Login</a> | <a href="/signup">Signup</a> | <a href="/forgetpassword">Forget password?</a>
 <% } %>
+
+<div>
+	<h3>Go to room:</h3>
+	<form id="roomForm" method="get">
+		<input type="text" name="room" />
+		<button type="submit">Submit</button>
+	</form>
+</div>
+

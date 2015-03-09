@@ -114,7 +114,7 @@ module.exports = {
 
       req.session.email = user.email;
       req.session.resetToken = resetToken;
-      res.view('user/resetpassword');
+      res.view('user/reset_password');
     })
     .catch(function(err) {
       if (err) return res.negotiate(err);

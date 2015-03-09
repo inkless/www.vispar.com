@@ -1,0 +1,12 @@
+<% block('localStyles', '<link rel="stylesheet" href="/styles/room.css">') %>
+<% block('localScripts', '<script src="/js/room.js"></script>') %>
+
+<div class="room">
+	<h2>room <%=roomId %></h2>
+	<ul id="messages"></ul>
+	<form action="">
+	    <input id="m" autocomplete="off" /><button>Send</button>
+	</form>	
+</div>
+
+

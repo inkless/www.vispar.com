@@ -36,19 +36,30 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/welcome': { view: 'user/welcome' },
+
+  /* Login/logout/register */
   // HTML Views
   'get /login': { view: 'user/login' },
   'get /signup': { view: 'user/signup' },
-  '/welcome': { view: 'user/welcome' },
-  'get /forgetpassword': { view: 'user/forgetpassword' },
-  'get /resetpassword': 'UserController.showResetPassword',
+  'get /forget_password': { view: 'user/forget_password' },
+  'get /reset_password': 'UserController.showResetPassword',
 
   // Endpoints
   'post /login': 'UserController.login',
   'post /signup': 'UserController.signup',
-  'post /forgetpassword': 'UserController.forgetPassword',
-  'post /resetpassword': 'UserController.resetPassword',
-  '/logout': 'UserController.logout'
+  'post /forget_password': 'UserController.forgetPassword',
+  'post /reset_password': 'UserController.resetPassword',
+  '/logout': 'UserController.logout',
+
+  /* Chat */
+  // HTML Views
+  'get /chat': 'ChatController.index',
+  'get /chat/new': 'ChatController.new',
+  'get /chat/room/:roomId': 'ChatController.room',
+
+  // Endpoints
+  'post /chat/create_new': 'ChatController.createNew',
 
   /***************************************************************************
   *                                                                          *
