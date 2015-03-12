@@ -1,40 +1,35 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-.room {
-	form {
-		background: #000;
-		padding: 3px;
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-
-		input {
-			border: 0;
-			padding: 10px;
-			width: 90%;
-			margin-right: .5%;
-		}
-		button {
-			width: 9%;
-			background: rgb(130, 224, 255);
-			border: none;
-			padding: 10px;
-		}
+.video-container {
+	min-height: 550px;
+	padding: 20px;
+	.video {
+		width: 640px;
+		margin: auto;
 	}
-	#messages {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
+}
 
-		li {
-			padding: 5px 10px;
+.chat-container {
+	.messages-container {
+		min-height: 600px;
+		border: 1px solid #eee;
 
-			&:nth-child(odd) {
-				background: #eee;
+		.room-messages {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+
+			li {
+				padding: 5px 10px;
+
+				&:nth-child(odd) {
+					background: #eee;
+				}
 			}
 		}
 	}
+
+	.messages-control {
+		padding: 5px;
+		text-align: center;
+	}	
 }
+

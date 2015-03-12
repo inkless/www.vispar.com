@@ -8,6 +8,7 @@
 <a href="/login">Login</a> | <a href="/signup">Signup</a> | <a href="/forgetpassword">Forget password?</a>
 <% } %>
 
+<% if (req.session.user) { %>
 <div>
 	<h3>Go to room:</h3>
 	<form id="roomForm" method="get">
@@ -15,4 +16,5 @@
 		<button type="submit">Submit</button>
 	</form>
 </div>
+<% } %>
 

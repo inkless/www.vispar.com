@@ -44,8 +44,14 @@ module.exports = {
    */
   room: function (req, res) {
     var roomId = req.param('roomId');
+    var data = {
+      user: _.pick(req.session.user, ['id', 'name', 'email']),
+      room: roomId
+    }
+
     return res.view('chat/room', {
-      roomId: roomId
+      roomId: roomId,
+      user: JSON.stringify(data)
     });
   }
 };
