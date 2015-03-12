@@ -1,5 +1,7 @@
+<% block('localScripts', '<script src="/js/login.js"></script>') %>
+
 <h1>Login</h1>
-<form action="/login" method="post">
+<form id="login_form" action="/login" method="post">
 
   <label for="email">Your email address?</label>
   <input name="email" type="text"/>
@@ -8,6 +10,8 @@
   <label for="password">Your safe word?</label>
   <input name="password" type="password"/>
   <br/>
+
+  <input name="redirect" type="hidden" />
 
   <input type="submit"/>
 </form>

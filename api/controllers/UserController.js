@@ -12,11 +12,16 @@ module.exports = {
    */
   login: function (req, res) {
 
+    var successRedirect = "/";
+    if (req.param("redirect")) {
+      successRedirect = req.param("redirect");
+    }
+
     // See `api/responses/login.js`
     return res.login({
       email: req.param('email'),
       password: req.param('password'),
-      successRedirect: '/',
+      successRedirect: successRedirect,
       invalidRedirect: '/login'
     });
   },

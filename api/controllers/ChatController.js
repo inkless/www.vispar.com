@@ -43,6 +43,10 @@ module.exports = {
    * `ChatController.room()`
    */
   room: function (req, res) {
+    if (!req.session.user) {
+      return res.redirect('/login?redirect=' + encodeURIComponent(req.path));
+    }
+
     var roomId = req.param('roomId');
     var data = {
       user: _.pick(req.session.user, ['id', 'name', 'email']),
