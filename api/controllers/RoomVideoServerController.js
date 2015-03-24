@@ -31,7 +31,7 @@ module.exports = {
   save: function(req, res) {
     var obj = {
       roomId: req.param("roomId"),
-      videoServerIp: req.param("ip") || req.ip
+      videoServerIp: req.param("ip") || UtilityService.getClientIp(req)
     };
 
     RoomVideoServer
@@ -64,7 +64,7 @@ module.exports = {
 
   queryServer: function(req, res) {
     var roomId = req.param('roomId'),
-      clientIp = req.param('ip') || req.ip;
+      clientIp = req.param('ip') || UtilityService.getClientIp(req);
 
     RoomVideoServer
       .findOneByRoomId(roomId)
