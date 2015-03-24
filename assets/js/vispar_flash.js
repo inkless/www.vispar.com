@@ -5,35 +5,44 @@
 		isArchive: isArchive,
 		getMode: getMode,
 		forceAudioOnly: forceAudioOnly,
-		getServerIp: getServerIp
+		getServerIp: getServerIp,
+		setServerIp: setServerIp,
+		showFlash: showFlash
 	};
 
-	// just for now...
-	function getRoom()
-	{ 
-	    return VP.pageInfo.room;
-	} 
-	function getUser()
-	{ 
-	    return VP.pageInfo.user.name;
-	} 
-	function isArchive()
-	{ 
-	    return '';
-	} 
-	function getMode()
-	{ 
-	    return "auto";
-	} 
-	function forceAudioOnly()
-	{ 
-	    return '';
-	} 
-	function getServerIp()
-	{ 
-	    return "52.10.61.227";
-	}
-		
-})();
+	var serverIp = '52.10.61.227';
 
-	
+	// just for now...
+	function getRoom() {
+		return VP.roomInfo.id;
+	}
+
+	function getUser() {
+		return VP.userInfo.id;
+	}
+
+	function isArchive() {
+		return '';
+	}
+
+	function getMode() {
+		return "auto";
+	}
+
+	function forceAudioOnly() {
+		return '';
+	}
+
+	function getServerIp() {
+		return serverIp;
+	}
+
+	function setServerIp(ip) {
+		serverIp = ip;
+	}
+
+	function showFlash() {
+		swfobject.embedSWF("/flash/vispar.swf", "visparFlashObj", "100%", "550", "9.0.0", "expressInstall.swf");
+	}
+
+})();

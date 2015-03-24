@@ -66,6 +66,17 @@ module.exports.routes = {
   // API
   'post /api/chat/message':"ChatController.message",
 
+  /* RoomVideoServer */
+  // API
+  'get /api/roomvideoserver': 'RoomVideoServerController.find',
+  'get /api/roomvideoserver/:roomId': 'RoomVideoServerController.findOne',
+  'post /api/roomvideoserver': 'RoomVideoServerController.save',
+  'delete /api/roomvideoserver/:roomId': 'RoomVideoServerController.destroy',
+
+  'get /api/queryvideoserver': 'RoomVideoServerController.queryServer'
+
+  
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

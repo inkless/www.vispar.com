@@ -54,6 +54,16 @@
     }
   });
 
+  // queryVideoServer
+  io.socket.get('/api/queryvideoserver', {
+    roomId: VP.roomInfo.id
+  }, function(data, jwrs) {
+    if (data.videoServerIp) {
+      VP.flashAPI.setServerIp(data.videoServerIp);
+    }
+    VP.flashAPI.showFlash();
+  });
+
   //listen for user changes
   io.socket.on('userleave', removeRoomUser)
   io.socket.on('userjoin', function(data) {
@@ -92,14 +102,6 @@
     chatViewList.append('<li>' + user.name + ' has left the room.</li>');
     chatView.scrollTop = chatView.scrollHeight;
   }
-
-  // socket.on('chat message', function(data) {
-  //   $('.room-messages').append($('<li>').text(data.name + ' : ' + data.msg));
-  //   var elem = $(".messages-container")[0];
-  //   elem.scrollTop = elem.scrollHeight;
-  // });
-
-  // swfobject.embedSWF("/flash/vispar.swf", "visparFlashObj", "100%", "550", "9.0.0", "expressInstall.swf");
 
   var showDebug = function() {
     $(".video-container").removeClass("col-xs-6").addClass("col-xs-9");
