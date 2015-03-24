@@ -6,26 +6,38 @@
     privateChats = $('#privateChats');
 
   $('#sending-btn').submit(function(event) {
-    var input = $(this).find("input");
-    // socket.emit('chat message', {
-    // 	name: VP.pageInfo.user.name,
-    // 	msg: input.val()
-    // });
+    event.preventDefault();
+    var input = $(this).find("input"),
+      msg = input.val();
 
-    if (input.val() === "debug flash") {
-      showDebug();
-    } else if (input.val() === "restore") {
-      hideDebug();
+    if (msg === "debug flash" || msg === "restore") {
+      if (msg === "debug flash") {
+        showDebug();
+      } else if (msg === "restore") {
+        hideDebug();
+      }
+
+      input.val("");
+      return;
     }
 
-    input.val('');
-    event.preventDefault();
+    var msgData = {
+      type: 'room',
+      contentType: 'text',
+      content: msg,
+      sender: VP.userInfo.id,
+      room: VP.roomInfo.id
+    };
+    io.socket.post('/api/room/message', msgData, function(data, jwrs) {
+      input.val('');
+    });
+
     return false;
   });
 
   //setup socket and get initial messages
   io.socket.post('/api/room/join', {
-    roomShortId: VP.roomInfo.shortId,
+    roomId: VP.roomInfo.id,
     userId: VP.userInfo.id
   }, function(data, jwrs) {
     console.log(data, jwrs)
@@ -37,20 +49,29 @@
         data.participants.forEach(addRoomUser);
         return true;
       } else {
-        // window.location.href = '/';
+        window.location.href = '/';
       }
     }
   });
+
+  //listen for user changes
+  io.socket.on('userleave', removeRoomUser)
+  io.socket.on('userjoin', function(data) {
+    addRoomUser(data, true);
+  });
+
+  //listen for messages
+  io.socket.on('new message', addItemToChat)
 
   //insert new chat message
   function addItemToChat(item) {
     var newItemHtml = [
       '<li>',
-        '<i>' + formatTime(item.createdAt) + '</i> ',
-        '<a href="#' + item.sender + '" class="user-link">',
-          escapeHtml(item.sender.name),
-        '</a>: ',
-        escapeHtml(item.content),
+      '<i>' + formatTime(item.createdAt) + '</i> ',
+      '<a href="#' + item.sender.id + '" class="user-link">',
+      escapeHtml(item.sender.name),
+      '</a>: ',
+      escapeHtml(item.content),
       '</li>'
     ].join("");
 
@@ -59,11 +80,17 @@
   }
 
   function addRoomUser(user, announce) {
-    roomUsers.append('<li><a href="#' + user.id + '" class="user-link">' + escapeHtml(user.name) + '</a></li>');
+    roomUsers.append('<li data-id="' + user.id + '"><a href="#' + user.id + '" class="user-link">' + escapeHtml(user.name) + '</a></li>');
     if (announce === true) {
-      chatViewList.append('<li>' + name + ' has entered the room.</li>');
+      chatViewList.append('<li>' + user.name + ' has entered the room.</li>');
       chatView.scrollTop = chatView.scrollHeight;
     }
+  }
+
+  function removeRoomUser(user) {
+    roomUsers.find('li[data-id="' + user.id + '"]').remove();
+    chatViewList.append('<li>' + user.name + ' has left the room.</li>');
+    chatView.scrollTop = chatView.scrollHeight;
   }
 
   // socket.on('chat message', function(data) {
@@ -86,10 +113,10 @@
     $(".video").css("width", "");
   }
 
-  function formatTime(dateString){
-        var dateObj = new Date(dateString);
-        return dateObj.toLocaleTimeString();
-    }
+  function formatTime(dateString) {
+    var dateObj = new Date(dateString);
+    return dateObj.toLocaleTimeString();
+  }
 
   //from: http://shebang.brandonmintern.com/foolproof-html-escaping-in-javascript/
   function escapeHtml(str) {

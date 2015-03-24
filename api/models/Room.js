@@ -11,9 +11,10 @@ var shortid = require('shortid'),
 module.exports = {
 
   attributes: {
-    shortId: {
+    id: {
       type: 'string',
-      unique: true
+      primaryKey: true,
+      required: true
     },
     name: {
       type: 'string',
@@ -56,7 +57,7 @@ module.exports = {
 
   createRoom: function(inputs) {
     var roomObj = {
-      shortId: shortid.generate(),
+      id: shortid.generate(),
       name: inputs.name,
       password: inputs.password || "",
       owner: inputs.owner
@@ -65,8 +66,8 @@ module.exports = {
     return Room.findOrCreate(roomObj, roomObj).then(_.identity);
   },
 
-  addParticipant: function(shortId, userId) {
-    return Room.findOneByShortId(shortId)
+  addParticipant: function(id, userId) {
+    return Room.findOne(id)
       .then(function(room) {
         room.addParticipant(userId);
         room.save();
@@ -74,8 +75,8 @@ module.exports = {
       });
   },
 
-  removeParticipant: function(shortId, userId) {
-    return Room.findOneByShortId(shortId)
+  removeParticipant: function(id, userId) {
+    return Room.findOne(id)
       .then(function(room) {
         room.removeParticipant(userId);
         room.save();
