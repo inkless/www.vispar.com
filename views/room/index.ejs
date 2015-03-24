@@ -1,0 +1,59 @@
+<% block('headerScripts', '<script>VP.userInfo = ' + user + '</script>') %>
+<% block('headerScripts', '<script>VP.roomInfo = ' + room + '</script>') %>
+
+<% block('localStyles', '<link rel="stylesheet" href="/styles/room.css">') %>
+<% block('localScripts', '<script src="/js/lib/swfobject.js"></script>') %>
+<% block('localScripts', '<script src="/js/room.js"></script>') %>
+<% block('localScripts', '<script src="/js/vispar_flash.js"></script>') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-6 video-container">
+      <div class="video">
+        <div id="visparFlashObj">
+          <h1>Alternative content</h1>
+          <p>
+            <a href="http://www.adobe.com/go/getflashplayer">
+              <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" 
+                alt="Get Adobe Flash player" />
+              </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-6 chat-container">
+      <div class="messages-header">
+        <h2>
+          Room <%=roomName %>
+          <a href="/" class="btn btn-primary btn-xs">Leave Room</a>
+        </h2>
+      </div>
+      <div class="messages-body row">
+        <div class="messages-container col-sm-7">
+          <ul class="room-messages"></ul>
+        </div>  
+        <div class="col-sm-2">
+            <h4>Users In Room</h4>
+            <ul id="roomUsers"></ul>
+        </div>
+        <div class="col-sm-3">
+            <h4>Chat</h4>
+            <ul id="privateChats"></ul>
+        </div>    
+      </div>
+      <div class="messages-control">
+        <form id="sending-btn" class="row form-group">
+          <div class="col-xs-9">
+            <input class="form-control" autocomplete="off"
+              placeholder="Write something..." />
+          </div>
+          <div class="col-xs-3">
+            <button class="btn btn-primary btn-block">Send</button>
+          </div>
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -6,39 +6,6 @@
  */
 
 module.exports = {
-	
-
-
-  /**
-   * `ChatController.index()`
-   */
-  index: function (req, res) {
-    return res.json({
-      todo: 'index() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `ChatController.new()`
-   */
-  new: function (req, res) {
-    return res.json({
-      todo: 'new() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `ChatController.createNew()`
-   */
-  createNew: function (req, res) {
-    return res.json({
-      todo: 'createNew() is not implemented yet!'
-    });
-  },
-
-
   /**
    * `ChatController.room()`
    */
@@ -57,6 +24,9 @@ module.exports = {
       roomId: roomId,
       user: JSON.stringify(data)
     });
+  },
+  message: function() {
+    
   }
 };
 
