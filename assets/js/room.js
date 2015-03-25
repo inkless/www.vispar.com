@@ -45,8 +45,8 @@
       if (data.error) {
         alert(data.error);
       } else if ($.isArray(data.participants) && $.isArray(data.messages)) {
-        data.messages.forEach(addItemToChat)
-        data.participants.forEach(addRoomUser);
+        _.forEachRight(data.messages, addItemToChat);
+        _.forEach(data.participants, addRoomUser);
         return true;
       } else {
         window.location.href = '/';

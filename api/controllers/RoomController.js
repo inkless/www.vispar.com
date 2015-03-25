@@ -77,7 +77,7 @@ module.exports = {
       .populate('participants')
       .populate('messages', {
         limit: 100,
-        sort : 'createdAt asc'
+        sort : 'createdAt desc'
       })
       .then(function(room) {
         var messageUsers = User.find({
