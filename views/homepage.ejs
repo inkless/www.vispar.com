@@ -9,12 +9,19 @@
 <% } %>
 
 <% if (req.session.user) { %>
-<div>
-	<h3>Go to room:</h3>
-	<form id="roomForm" method="get">
-		<input type="text" name="room" />
-		<button type="submit">Submit</button>
-	</form>
+
+<div class="row">
+  <div class="col-sm-6">
+    <h3>Create Your Room</h3>
+    <form method="post" action="/room" class="form-inline">
+      <div class="form-group">
+        <input type="text" name="name" class="form-control" placeholder="Room Name" required>
+        <input type="hidden" name="owner" value="<%= req.session.user.id %>">
+      </div>
+      <input value="Create Room" type="submit" class="btn btn-primary">
+    </form>
+    <h3>Room List</h3>
+    <ul id="roomList"></ul>
+  </div>
 </div>
 <% } %>
-

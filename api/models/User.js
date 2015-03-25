@@ -18,7 +18,8 @@ module.exports = {
   attributes: {
     email: {
       type: 'email',
-      required: true
+      required: true,
+      unique: true
     },
     password: {
       type: 'string',
@@ -35,6 +36,22 @@ module.exports = {
     expired: {
       type: 'integer',
       required: false
+    },
+    rooms: {
+      collection: "Room",
+      via: "participants"
+    },
+    chats: {
+      collection: "Chat",
+      via: "participants"
+    },
+    ownRooms: {
+      collection: "Room",
+      via: "owner"
+    },
+    toJSON: function() {
+      var obj = this.toObject();
+      return _.pick(obj, ['id', 'name', 'email', 'token', 'expired']);
     }
   },
 
@@ -139,10 +156,6 @@ module.exports = {
       }
       return user;
     });
-  },
-
-  retrieveInfo: function(user) {
-    return _.pick(user, ['id', 'name', 'email', 'token', 'expired']);
   }
 };
 

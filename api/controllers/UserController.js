@@ -73,7 +73,7 @@ module.exports = {
       // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
       // send a 200 response letting the user agent know the signup was successful.
       if (req.wantsJSON) {
-        return res.ok(User.retrieveInfo(user));
+        return res.ok(user.toJSON());
       }
 
       // Otherwise if this is an HTML-wanting browser, redirect to /welcome.
@@ -98,7 +98,7 @@ module.exports = {
       }
 
       if (req.wantsJSON) {
-        return res.ok(User.retrieveInfo(user));
+        return res.ok(user.toJSON());
       }
 
       return res.redirect('/');
@@ -142,7 +142,7 @@ module.exports = {
       }
 
       if (req.wantsJSON) {
-        return res.ok(User.retrieveInfo(user));
+        return res.ok(user.toJSON());
       }
 
       return res.redirect('/');

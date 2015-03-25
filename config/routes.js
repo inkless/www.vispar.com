@@ -32,9 +32,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'homepage'
-  },
+  '/': 'HomeController.index',
 
   '/welcome': { view: 'user/welcome' },
 
@@ -52,14 +50,32 @@ module.exports.routes = {
   'post /reset_password': 'UserController.resetPassword',
   '/logout': 'UserController.logout',
 
-  /* Chat */
+  /* Room */
   // HTML Views
-  'get /chat': 'ChatController.index',
-  'get /chat/new': 'ChatController.new',
-  'get /chat/room/:roomId': 'ChatController.room',
+  'get /room/:roomId':"RoomController.index",
 
   // Endpoints
-  'post /chat/create_new': 'ChatController.createNew',
+  'post /room':"RoomController.new",
+
+  // API
+  'post /api/room/join':"RoomController.join",
+  'post /api/room/message':"RoomController.message",
+  'get /api/room/join_lobby':'RoomController.joinLobby',
+
+  /* Chat */
+  // API
+  'post /api/chat/message':"ChatController.message",
+
+  /* RoomVideoServer */
+  // API
+  'get /api/roomvideoserver': 'RoomVideoServerController.find',
+  'get /api/roomvideoserver/:roomId': 'RoomVideoServerController.findOne',
+  'post /api/roomvideoserver': 'RoomVideoServerController.save',
+  'delete /api/roomvideoserver/:roomId': 'RoomVideoServerController.destroy',
+
+  'get /api/queryvideoserver': 'RoomVideoServerController.queryServer'
+
+  
 
   /***************************************************************************
   *                                                                          *
