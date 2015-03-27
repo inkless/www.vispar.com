@@ -151,7 +151,7 @@ module.exports = {
               .findOne(message.id)
               .populate('sender')
               .then(function(message) {
-                sails.sockets.broadcast('room_' + message.room, 'new message', message);
+                sails.sockets.broadcast('room_' + message.room, 'newmessage', message);
                 res.send(message);
               })
           })

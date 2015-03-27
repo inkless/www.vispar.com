@@ -71,7 +71,7 @@
   });
 
   //listen for messages
-  io.socket.on('new message', addItemToChat)
+  io.socket.on('newmessage', addItemToChat)
 
   //insert new chat message
   function addItemToChat(item) {
