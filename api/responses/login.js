@@ -26,7 +26,7 @@ module.exports = function login(inputs) {
       // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
       // send a 200 response letting the user agent know the login was successful.
       // (also do this if no `invalidRedirect` was provided)
-      if (req.wantsJSON || !inputs.invalidRedirect) {
+      if (req.apiRequest || !inputs.invalidRedirect) {
         return res.badRequest('Invalid username/password combination.');
       }
       // Otherwise if this is an HTML-wanting browser, redirect to /login.
@@ -40,7 +40,7 @@ module.exports = function login(inputs) {
     // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
     // send a 200 response letting the user agent know the login was successful.
     // (also do this if no `successRedirect` was provided)
-    if (req.wantsJSON || !inputs.successRedirect) {
+    if (req.apiRequest || !inputs.successRedirect) {
       return res.ok(user.toJSON());
     }
 

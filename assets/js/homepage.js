@@ -2,7 +2,7 @@
   var roomList = $('#roomList');
 
   io.socket.get('/api/room/join_lobby', function(data) {
-    data.forEach(addRoom);
+    _.forEach(data, addRoom);
   });
 
   io.socket.on('roomremove', function(data) {
