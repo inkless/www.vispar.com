@@ -40,7 +40,7 @@
     roomId: VP.roomInfo.id,
     userId: VP.userInfo.id
   }, function(data, jwrs) {
-    console.log(data, jwrs)
+    console.log(data, jwrs);
     if (data) {
       if (data.error) {
         alert(data.error);

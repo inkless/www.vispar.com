@@ -40,7 +40,7 @@ module.exports = {
     // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
     // send a simple response letting the user agent know they were logged out
     // successfully.
-    if (req.wantsJSON) {
+    if (req.apiRequest) {
       return res.ok('Logged out successfully!');
     }
 
@@ -59,12 +59,14 @@ module.exports = {
       name: req.param('name'),
       email: req.param('email'),
       password: req.param('password')
-    }, function (err, user) {
-      // res.negotiate() will determine if this is a validation error
-      // or some kind of unexpected server error, then call `res.badRequest()`
-      // or `res.serverError()` accordingly.
-      if (err) return res.negotiate(err);
-
+    })
+    .then(function(user) {
+      if (user.err) {
+        if (req.apiRequest) {
+          return res.ok(user);
+        }
+        return res.redirect('/signup');
+      }
       // Go ahead and log this user in as well.
       // We do this by "remembering" the user in the session.
       // Subsequent requests from this user agent will have `req.session.user` set.
@@ -72,12 +74,18 @@ module.exports = {
 
       // If this is not an HTML-wanting browser, e.g. AJAX/sockets/cURL/etc.,
       // send a 200 response letting the user agent know the signup was successful.
-      if (req.wantsJSON) {
+      if (req.apiRequest) {
         return res.ok(user.toJSON());
       }
 
       // Otherwise if this is an HTML-wanting browser, redirect to /welcome.
       return res.redirect('/welcome');
+    })
+    .catch(function(err) {
+      // res.negotiate() will determine if this is a validation error
+      // or some kind of unexpected server error, then call `res.badRequest()`
+      // or `res.serverError()` accordingly.
+      if (err) return res.negotiate(err);
     });
   },
 
@@ -89,15 +97,16 @@ module.exports = {
     User.sendResetEmail({
       email: toEmail,
       baseUrl: baseUrl
-    }).then(function(user) {
+    })
+    .then(function(user) {
       if (!user) {
-        if (req.wantsJSON) {
+        if (req.apiRequest) {
           return res.badRequest('reset token failed');
         }
         return res.redirect('/');
       }
 
-      if (req.wantsJSON) {
+      if (req.apiRequest) {
         return res.ok(user.toJSON());
       }
 
@@ -135,13 +144,13 @@ module.exports = {
     })
     .then(function(user) {
       if (!user) {
-        if (req.wantsJSON) {
+        if (req.apiRequest) {
           return res.badRequest('reset password failed');
         }
         return res.redirect('/');
       }
 
-      if (req.wantsJSON) {
+      if (req.apiRequest) {
         return res.ok(user.toJSON());
       }
 

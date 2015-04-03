@@ -8,6 +8,7 @@
 var sha1 = require('sha1');
 var _ = require('lodash');
 var salt = '_$VISPAR_PASSWORD$_';
+var Promise = require('bluebird');
 
 function pwdHash(pwd) {
   return sha1(pwd + salt);
@@ -67,17 +68,27 @@ module.exports = {
    * @param  {Function} cb
    */
 
-  signup: function (inputs, cb) {
-    // Create a user
-    User.create({
+  signup: function (inputs) {
+    var user = {
       name: inputs.name,
       email: inputs.email,
       password: pwdHash(inputs.password),
       // TODO: temp code
       token: sha1(+new Date),
       expired: 1451548800
-    })
-    .exec(cb);
+    };
+
+    var validInfo = UserService.validator(user);
+
+    if (validInfo.valid) {
+      return User.create(user);
+    } else {
+      return new Promise(function(resolver, reject) {
+        resolver({
+          err: validInfo.err
+        })
+      });
+    }
   },
 
   /**

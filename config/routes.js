@@ -36,6 +36,8 @@ module.exports.routes = {
 
   '/welcome': { view: 'user/welcome' },
 
+  'post /api/*': {policy: 'apiRequest'},
+
   /* Login/logout/register */
   // HTML Views
   'get /login': { view: 'user/login' },
@@ -49,6 +51,13 @@ module.exports.routes = {
   'post /forget_password': 'UserController.forgetPassword',
   'post /reset_password': 'UserController.resetPassword',
   '/logout': 'UserController.logout',
+
+  // API
+  'post /api/user/login': 'UserController.login',
+  'post /api/user/signup': 'UserController.signup',
+  'post /api/user/forget_password': 'UserController.forgetPassword',
+  'post /api/user/reset_password': 'UserController.resetPassword',
+  'post /api/user/logout': 'UserController.logout',
 
   /* Room */
   // HTML Views
